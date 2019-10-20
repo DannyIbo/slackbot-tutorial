@@ -2,16 +2,23 @@ import os
 import schedule
 import time
 import logging
-from slackclient import SlackClient
+from slack import WebClient as SlackClient
+from config import config
 
 logging.basicConfig(level=logging.DEBUG)
 
 def sendMessage(slack_client, msg):
   # make the POST request through the python slack client
-  updateMsg = slack_client.api_call(
-    "chat.postMessage",
-    channel='#test',
+
+  # updateMsg = slack_client.api_call(
+  #   "chat.postMessage",
+  #   channel='CPCUZ2JB0',
+  #   text=msg
+
+  updateMsg = slack_client.chat_postMessage(
+    channel='CPCUZ2JB0',
     text=msg
+
   )
 
   # check if the request was a success
@@ -21,7 +28,7 @@ def sendMessage(slack_client, msg):
     logging.debug(updateMsg)
 
 if __name__ == "__main__":
-  SLACK_BOT_TOKEN = os.environ['SLACK_BOT_TOKEN']
+  SLACK_BOT_TOKEN = config['SLACKBOT_TOKEN']
   slack_client = SlackClient(SLACK_BOT_TOKEN)
   logging.debug("authorized slack client")
 
